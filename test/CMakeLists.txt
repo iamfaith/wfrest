@@ -59,6 +59,7 @@ set(UNIT_TEST_LIST
 	HttpDef_unittest
 	FileUtil_unittest
 	PathUtil_unittest
+	WFJson_uniitest
 )
 
 foreach(src ${UNIT_TEST_LIST})

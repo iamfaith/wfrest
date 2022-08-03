@@ -77,7 +77,8 @@ bin/lib-bash
 .idea
 
 .vscode
-
+.ccls-cache
+.ccls-cache/*
 # Ignore log
 *.log 
 */logs/*

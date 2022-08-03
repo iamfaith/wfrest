@@ -12,6 +12,7 @@ set(SRC_HEADERS
     src/base/base64.h
     src/base/Compress.h
     src/base/SysInfo.h
+    src/base/WFJson.h
 
     src/core/HttpContent.h
     src/core/HttpCookie.h
