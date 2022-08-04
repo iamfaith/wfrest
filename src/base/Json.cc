@@ -1,10 +1,10 @@
-#include "WFJson.h"
+#include "Json.h"
 #include <sstream>
 
 namespace wfrest
 {
 
-std::string WFJson::stringfy(json_value_t *val, bool format) 
+std::string Json::stringfy(json_value_t *val, bool format) 
 {
     std::string out_str;
     out_str.reserve(64);
@@ -13,7 +13,7 @@ std::string WFJson::stringfy(json_value_t *val, bool format)
     return out_str;
 }
 
-void WFJson::value_convert(const json_value_t *val, bool format, int depth, std::string* out_str)
+void Json::value_convert(const json_value_t *val, bool format, int depth, std::string* out_str)
 {
 	switch (json_value_type(val))
 	{
@@ -41,7 +41,7 @@ void WFJson::value_convert(const json_value_t *val, bool format, int depth, std:
 	}
 }
 
-void WFJson::string_convert(const char *str, std::string* out_str)
+void Json::string_convert(const char *str, std::string* out_str)
 {
 	out_str->append("\"");
 	while (*str)
@@ -78,11 +78,10 @@ void WFJson::string_convert(const char *str, std::string* out_str)
 	out_str->append("\"");
 }
 
-void WFJson::number_convert(double number, std::string* out_str)
+void Json::number_convert(double number, std::string* out_str)
 {
     std::ostringstream oss;
 	long long integer = number;
-    oss << std::fixed;
 	if (integer == number)
         oss << integer;
 	else
@@ -91,8 +90,30 @@ void WFJson::number_convert(double number, std::string* out_str)
     out_str->append(oss.str());
 }
 
-void WFJson::array_convert(const json_array_t *arr, bool format, int depth, std::string* out_str)
+void Json::array_convert_not_format(const json_array_t *arr, int depth, std::string* out_str)
 {
+	const json_value_t *val;
+	int n = 0;
+    
+	out_str->append("[");
+	json_array_for_each(val, arr)
+	{
+		if (n != 0)
+        {
+            out_str->append(",");
+        }
+		n++;
+		value_convert(val, false, depth + 1, out_str);
+	}
+	out_str->append("]");
+}
+
+void Json::array_convert(const json_array_t *arr, bool format, int depth, std::string* out_str)
+{
+	if(!format) 
+	{
+		return array_convert_not_format(arr, depth, out_str);
+	}
 	const json_value_t *val;
 	int n = 0;
 	int i;
@@ -120,8 +141,34 @@ void WFJson::array_convert(const json_array_t *arr, bool format, int depth, std:
 	out_str->append("]");
 }
 
-void WFJson::object_convert(const json_object_t *obj, bool format, int depth, std::string* out_str)
+void Json::object_convert_not_format(const json_object_t *obj, int depth, std::string* out_str)
 {
+	const char *name;
+	const json_value_t *val;
+	int n = 0;
+
+	out_str->append("{");
+	json_object_for_each(name, val, obj)
+	{
+		if (n != 0)
+        {
+            out_str->append(",");
+        }
+		n++;
+        out_str->append("\"");
+        out_str->append(name);
+        out_str->append("\":");
+		value_convert(val, false, depth + 1, out_str);
+	}
+	out_str->append("}");
+}
+
+void Json::object_convert(const json_object_t *obj, bool format, int depth, std::string* out_str)
+{
+	if(!format) 
+	{
+		return object_convert_not_format(obj, depth, out_str);
+	}
 	const char *name;
 	const json_value_t *val;
 	int n = 0;

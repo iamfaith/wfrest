@@ -27,7 +27,7 @@ class MySQLResultCursor;
 namespace wfrest
 {
 
-using Json = nlohmann::json;
+// using Json = nlohmann::json;
 
 struct ReqData;
 class MySQL;
@@ -42,7 +42,7 @@ public:
 
     Form &form() const;
 
-    Json &json() const;
+    nlohmann::json &json() const;
 
     http_content_type content_type() const
     { return content_type_; }
@@ -169,11 +169,11 @@ inline double HttpReq::param<double>(const std::string &key) const
 class HttpResp : public protocol::HttpResponse, public Noncopyable
 {
 public:
-    using MySQLJsonFunc = std::function<void(Json *json)>;
+    using MySQLJsonFunc = std::function<void(nlohmann::json *json)>;
 
     using MySQLFunc = std::function<void(protocol::MySQLResultCursor *cursor)>;
 
-    using RedisFunc = std::function<void(Json *json)>;
+    using RedisFunc = std::function<void(nlohmann::json *json)>;
 public:
     // send string
     void String(const std::string &str);
@@ -205,7 +205,7 @@ public:
     void Save(const std::string &file_dst, std::string &&content, std::string &&notify_msg);
 
     // json
-    void Json(const Json &json);
+    void Json(const nlohmann::json &json);
 
     void Json(const std::string &str);
 

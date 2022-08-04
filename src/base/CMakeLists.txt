@@ -9,7 +9,7 @@ set(SRC
     Compress.cc
     SysInfo.cc     
     Timestamp.cc
-    WFJson.cc
+    Json.cc
 )
 
 add_library(${PROJECT_NAME} OBJECT ${SRC})
