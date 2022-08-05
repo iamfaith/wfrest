@@ -33,6 +33,7 @@ R"([
     EXPECT_TRUE(val);
     // std::cout << Json::stringfy(val) << std::endl;
     EXPECT_EQ(Json::stringfy(val, true), json1);
+    json_value_destroy(val);
 }
 
 TEST(JsonTest, stringfy_not_format) 
@@ -57,6 +58,7 @@ TEST(JsonTest, stringfy_not_format)
     EXPECT_TRUE(val);
     std::string compressed = R"({"name":"John Smith","sku":"20223","price":23.95,"shipTo":{"name":"Jane Smith","address":"123 Maple Street","city":"Pretendville","state":"NY","zip":"12345"},"billTo":{"name":"John Smith","address":"123 Maple Street","city":"Pretendville","state":"NY","zip":"12345"}})";
     EXPECT_EQ(Json::stringfy(val), compressed);
+    json_value_destroy(val);
 }
 
 int main(int argc, char **argv) {
