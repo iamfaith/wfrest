@@ -1,4 +1,4 @@
-#include "Json.h"
+#include "WFJson.h"
 #include <sstream>
 
 namespace wfrest
@@ -90,7 +90,7 @@ void Json::number_convert(double number, std::string* out_str)
     out_str->append(oss.str());
 }
 
-void Json::array_convert_not_format(const json_array_t *arr, int depth, std::string* out_str)
+void Json::array_convert_not_format(const json_array_t *arr, std::string* out_str)
 {
 	const json_value_t *val;
 	int n = 0;
@@ -103,7 +103,7 @@ void Json::array_convert_not_format(const json_array_t *arr, int depth, std::str
             out_str->append(",");
         }
 		n++;
-		value_convert(val, false, depth + 1, out_str);
+		value_convert(val, false, 0, out_str);
 	}
 	out_str->append("]");
 }
@@ -112,7 +112,7 @@ void Json::array_convert(const json_array_t *arr, bool format, int depth, std::s
 {
 	if(!format) 
 	{
-		return array_convert_not_format(arr, depth, out_str);
+		return array_convert_not_format(arr, out_str);
 	}
 	const json_value_t *val;
 	int n = 0;
@@ -141,7 +141,7 @@ void Json::array_convert(const json_array_t *arr, bool format, int depth, std::s
 	out_str->append("]");
 }
 
-void Json::object_convert_not_format(const json_object_t *obj, int depth, std::string* out_str)
+void Json::object_convert_not_format(const json_object_t *obj, std::string* out_str)
 {
 	const char *name;
 	const json_value_t *val;
@@ -158,7 +158,7 @@ void Json::object_convert_not_format(const json_object_t *obj, int depth, std::s
         out_str->append("\"");
         out_str->append(name);
         out_str->append("\":");
-		value_convert(val, false, depth + 1, out_str);
+		value_convert(val, false, 0, out_str);
 	}
 	out_str->append("}");
 }
@@ -167,7 +167,7 @@ void Json::object_convert(const json_object_t *obj, bool format, int depth, std:
 {
 	if(!format) 
 	{
-		return object_convert_not_format(obj, depth, out_str);
+		return object_convert_not_format(obj, out_str);
 	}
 	const char *name;
 	const json_value_t *val;

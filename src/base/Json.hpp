@@ -2293,7 +2293,7 @@ using is_detected_convertible =
 
 
 // This file contains all internal macro definitions
-// You MUST include macro_unscope.hpp at the end of json.hpp to undef all of them
+// You MUST include macro_unscope.hpp at the end of Json.hppto undef all of them
 
 // exclude unsupported compilers
 #if !defined(JSON_SKIP_UNSUPPORTED_COMPILER_CHECK)
@@ -3407,7 +3407,7 @@ NLOHMANN_CAN_CALL_STD_FUNC_IMPL(end);
 
 // #include <nlohmann/detail/meta/detected.hpp>
 
-// #include <nlohmann/json_fwd.hpp>
+// #include <nlohmann/JsonFwd.hpp>
 #ifndef INCLUDE_NLOHMANN_JSON_FWD_HPP_
 #define INCLUDE_NLOHMANN_JSON_FWD_HPP_
 
@@ -17381,7 +17381,7 @@ class serializer
 
 // #include <nlohmann/detail/value_t.hpp>
 
-// #include <nlohmann/json_fwd.hpp>
+// #include <nlohmann/JsonFwd.hpp>
 
 // #include <nlohmann/ordered_map.hpp>
 

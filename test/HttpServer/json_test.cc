@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include "wfrest/HttpServer.h"
-#include "wfrest/json.hpp"
+#include "wfrest/Json.hpp"
 #include "workflow/WFFacilities.h"
 
 using namespace wfrest;

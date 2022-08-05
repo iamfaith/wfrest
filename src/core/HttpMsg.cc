@@ -11,12 +11,13 @@
 #include "UriUtil.h"
 #include "PathUtil.h"
 #include "HttpFile.h"
-#include "json.hpp"
+#include "Json.hpp"
 #include "MysqlUtil.h"
 #include "ErrorCode.h"
 #include "FileUtil.h"
 #include "HttpServerTask.h"
 #include "CodeUtil.h"
+#include "WFJson.h"
 
 using namespace wfrest;
 using namespace protocol;
@@ -30,6 +31,7 @@ struct ReqData
     std::map<std::string, std::string> form_kv;
     Form form;
     nlohmann::json json;
+    json_value_t *wf_json = nullptr;
 };
 
 struct ProxyCtx
@@ -298,6 +300,9 @@ HttpReq::HttpReq() : req_data_(new ReqData)
 
 HttpReq::~HttpReq()
 {
+    if(req_data_->wf_json) {
+        json_value_destroy(req_data_->wf_json);
+    }
     delete req_data_;
 }
 
@@ -359,6 +364,23 @@ nlohmann::json &HttpReq::json() const
         req_data_->json = nlohmann::json::parse(body_content);
     }
     return req_data_->json;
+}
+
+json_value_t *HttpReq::wfjson() const
+{
+    if (content_type_ == APPLICATION_JSON && req_data_->wf_json == nullptr)
+    {
+        const std::string &body_content = this->body();
+        json_value_t *val = json_value_parse(body_content.c_str());
+        if(!val)
+        {
+            return nullptr;
+        } else
+        {
+            req_data_->wf_json = val;
+        }
+    }
+    return req_data_->wf_json;
 }
 
 const std::string &HttpReq::param(const std::string &key) const
@@ -752,6 +774,12 @@ void HttpResp::Json(const nlohmann::json &json)
     // https://stackoverflow.com/questions/5809099/does-the-http-protocol-support-multiple-content-types-in-response-headers
     this->headers["Content-Type"] = "application/json";
     this->String(json.dump());
+}
+
+void HttpResp::Json(json_value_t *val, bool foramt)
+{
+    this->headers["Content-Type"] = "application/json";
+    this->String(Json::stringfy(val, foramt));
 }
 
 void HttpResp::Json(const std::string &str)

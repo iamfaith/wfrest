@@ -3,6 +3,7 @@
 
 #include "workflow/HttpMessage.h"
 #include "workflow/WFTaskFactory.h"
+#include "workflow/json_parser.h"
 
 #include <fcntl.h>
 #include <unordered_map>
@@ -12,7 +13,7 @@
 #include "HttpDef.h"
 #include "HttpContent.h"
 #include "Compress.h"
-#include "json_fwd.hpp"
+#include "JsonFwd.hpp"
 #include "StrUtil.h"
 #include "HttpCookie.h"
 #include "Noncopyable.h"
@@ -26,8 +27,6 @@ class MySQLResultCursor;
 
 namespace wfrest
 {
-
-// using Json = nlohmann::json;
 
 struct ReqData;
 class MySQL;
@@ -43,6 +42,9 @@ public:
     Form &form() const;
 
     nlohmann::json &json() const;
+
+    // You don't need to destroy json_value_t by yourself
+    json_value_t *wfjson() const;
 
     http_content_type content_type() const
     { return content_type_; }
@@ -206,6 +208,8 @@ public:
 
     // json
     void Json(const nlohmann::json &json);
+
+    void Json(json_value_t *val, bool foramt = false);
 
     void Json(const std::string &str);
 

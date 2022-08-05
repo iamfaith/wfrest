@@ -1,4 +1,4 @@
-#include "wfrest/Json.h"
+#include "wfrest/WFJson.h"
 #include <gtest/gtest.h>
 
 using namespace wfrest;

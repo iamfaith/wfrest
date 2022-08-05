@@ -21,11 +21,11 @@ private:
 
     static void array_convert(const json_array_t *arr, bool format, int depth, std::string* out_str);
 
-    static void array_convert_not_format(const json_array_t *arr, int depth, std::string* out_str);
+    static void array_convert_not_format(const json_array_t *arr, std::string* out_str);
 
     static void object_convert(const json_object_t *obj, bool format, int depth, std::string* out_str);
 
-    static void object_convert_not_format(const json_object_t *obj, int depth, std::string* out_str);
+    static void object_convert_not_format(const json_object_t *obj, std::string* out_str);
 };
     
 } // namespace wfrest

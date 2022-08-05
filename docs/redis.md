@@ -2,7 +2,7 @@
 
 ```cpp
 #include "wfrest/HttpServer.h"
-#include "wfrest/json.hpp"
+#include "wfrest/Json.hpp"
 
 using Json = nlohmann::json;
 using namespace wfrest;

@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "wfrest/base64.h"
+#include "wfrest/Base64.h"
 
 using namespace wfrest;
 
