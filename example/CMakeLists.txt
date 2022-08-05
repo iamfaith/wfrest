@@ -55,7 +55,7 @@ set(EXAMPLE_LIST
     07_file_save
     08_upload_file
     09_json
-    # 10
+    10_wfjson
     11_compute_handler
     12_series_interface
     13_compession
