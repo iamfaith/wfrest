@@ -19,12 +19,9 @@ TEST(JsonTest, json)
 
     svr.GET("/test", [](const HttpReq *req, HttpResp *resp)
     {
-
-        json_value_t *json = json_value_create(JSON_VALUE_OBJECT);
-        json_object_t *test_obj = json_value_object(json);
-        json_object_append(test_obj, "test", JSON_VALUE_NUMBER, 123.0);
-        json_object_append(test_obj, "recv", JSON_VALUE_STRING, "json");
-
+        Json json;
+        json["test"] = 123;
+        json["json"] = "test json";
         resp->Json(json);
     });
 
