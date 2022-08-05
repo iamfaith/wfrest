@@ -779,17 +779,25 @@ void HttpResp::Json(const nlohmann::json &json)
 void HttpResp::Json(json_value_t *val, bool foramt)
 {
     this->headers["Content-Type"] = "application/json";
+    if(!val) 
+    {
+        this->Error(StatusJsonInvalid);
+        return; 
+    }
+    task_of(this)->add_callback([val](HttpTask *) {
+        json_value_destroy(val);
+    });
     this->String(Json::stringfy(val, foramt));
 }
 
 void HttpResp::Json(const std::string &str)
 {
+    this->headers["Content-Type"] = "application/json";
     if (!nlohmann::json::accept(str))
     {
         this->Error(StatusJsonInvalid);
         return;
     }
-    this->headers["Content-Type"] = "application/json";
     this->String(str);
 }
 

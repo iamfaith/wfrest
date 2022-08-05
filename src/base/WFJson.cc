@@ -9,7 +9,6 @@ std::string Json::stringfy(json_value_t *val, bool format)
     std::string out_str;
     out_str.reserve(64);
     value_convert(val, format, 0, &out_str);
-    json_value_destroy(val);
     return out_str;
 }
 
